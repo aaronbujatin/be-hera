@@ -28,10 +28,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(entryPoint -> entryPoint.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authentication -> authentication
-                        .requestMatchers("/api/v1/auth/signin", "/api/v1/auth/signup").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/endpoint/public").permitAll()
                         .requestMatchers("/api/v1/endpoint/user").hasRole("USER")
                         .requestMatchers("/api/v1/endpoint/admin").hasRole("ADMIN"))

@@ -26,7 +26,7 @@ public class JwtProvider {
     public String getUsernameFromJwt(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(JwtUtils.JWT_SECRET)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
     }
