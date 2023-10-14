@@ -35,7 +35,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/endpoint/public").permitAll()
                         .requestMatchers("/api/v1/endpoint/user").hasRole("USER")
-                        .requestMatchers("/api/v1/endpoint/admin").hasRole("ADMIN"))
+                        .requestMatchers("/api/v1/endpoint/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
