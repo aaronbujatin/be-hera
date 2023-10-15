@@ -4,6 +4,8 @@ package com.aaronbujatin.behera.service;
 import com.aaronbujatin.behera.entity.Cart;
 import com.aaronbujatin.behera.entity.CartItem;
 
+import java.util.List;
+
 public interface CartService {
 
     CartItem addItemToCart(CartItem cartItem);
@@ -12,5 +14,8 @@ public interface CartService {
     CartItem removeItemFromCart(Long id);
     void emptyItemFromCart();
     Cart calculateTotalAmount(Cart cart);
+    List<Cart> getAllCart();
+
+    List<CartItem> getAllCartItem();
 
 }

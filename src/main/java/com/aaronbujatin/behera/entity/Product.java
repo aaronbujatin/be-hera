@@ -31,7 +31,7 @@ public class Product {
     private String brand;
     private String category;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//    private List<CartItem> cartItems;
 
 }

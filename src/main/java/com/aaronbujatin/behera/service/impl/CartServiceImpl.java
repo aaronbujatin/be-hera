@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -129,13 +130,23 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart calculateTotalAmount(Cart cart) {
         cart.setTotalAmount(0);
-
-        cart.getCartItems().forEach(cartItem -> {
-                    cart.setTotalAmount(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+        cart.getCartItems()
+                .forEach(cartItem -> {
+                    cart.setTotalAmount(cart.getTotalAmount() + (cartItem.getProduct().getPrice() * cartItem.getQuantity()));
                 }
         );
         cart.setTotalAmount(cart.getTotalAmount());
         return cart;
+    }
+
+    @Override
+    public List<Cart> getAllCart() {
+        return cartRepository.findAll();
+    }
+
+    @Override
+    public List<CartItem> getAllCartItem() {
+        return cartItemRepository.findAll();
     }
 
 
