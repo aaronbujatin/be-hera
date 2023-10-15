@@ -22,11 +22,16 @@ public class Product {
     private Long id;
     private String name;
     private double price;
-    private String[] imageUrl;
+    @Column(length = 500000)
+    private List<String> imageUrl;
+    @Column(length = 500000)
     private List<String> descriptions;
     private LocalDate dateCreated;
     private int stock;
     private String brand;
     private String category;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
 
 }

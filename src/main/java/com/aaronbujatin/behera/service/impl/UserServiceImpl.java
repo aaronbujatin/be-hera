@@ -2,16 +2,21 @@ package com.aaronbujatin.behera.service.impl;
 
 import com.aaronbujatin.behera.entity.Role;
 import com.aaronbujatin.behera.entity.User;
+import com.aaronbujatin.behera.exception.AccessDeniedException;
 import com.aaronbujatin.behera.exception.InvalidArgumentException;
+import com.aaronbujatin.behera.exception.ResourceNotFoundException;
 import com.aaronbujatin.behera.repository.RoleRepository;
 import com.aaronbujatin.behera.repository.UserRepository;
 import com.aaronbujatin.behera.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         Boolean isUsernameExist = userRepository.existsByUsername(user.getUsername());
 
-        if(!isUsernameExist){
+        if (!isUsernameExist) {
             Optional<Role> role = roleRepository.findByName("ROLE_USER");
             user.setRoles(Collections.singleton(role.orElseThrow(() -> new InvalidArgumentException("Role not found!"))));
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -66,5 +71,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUsernameExist(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public User getUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (Objects.isNull(username)) {
+            throw new AccessDeniedException("Invalid Access");
+        }
+
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        return user.get();
     }
 }
