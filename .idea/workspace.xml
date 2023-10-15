@@ -4,61 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8475f72a-c6ad-4401-b363-7ed3d77ffae6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HELP.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/be-hera-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/be-hera-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/BeHeraApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/AuthenticationController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/CartController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/ProductController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/TestController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/AuthenticationResponseDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/SigninDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/SignupDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/response/UserResponse.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Cart.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/CartItem.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Product.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Role.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/exception/AccessDeniedException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/exception/InvalidArgumentException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/exception/ResourceNotFoundException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/exceptionhandler/GlobalExceptionHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/jwt/JwtAuthenticationEntryPoint.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/jwt/JwtAuthenticationFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/jwt/JwtProvider.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/jwt/JwtUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/CartItemRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/CartRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/ProductRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/RoleRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/UserRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/security/SecurityConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/CartService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/ProductService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/UserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/CartServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/ProductServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/UserDetailsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.aaronbujatin.behera.BeHeraApplicationTests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/surefire-reports/com.aaronbujatin.behera.BeHeraApplicationTests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/com/aaronbujatin/behera/BeHeraApplicationTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8475f72a-c6ad-4401-b363-7ed3d77ffae6" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

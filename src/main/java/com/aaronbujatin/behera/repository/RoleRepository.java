@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.aaronbujatin.behera.repository;
 
 import com.aaronbujatin.behera.entity.Role;
@@ -9,3 +10,16 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Optional<Role> findByName(String  name);
 }
+=======
+package com.aaronbujatin.behera.repository;
+
+import com.aaronbujatin.behera.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface RoleRepository extends JpaRepository<Role, Long> {
+
+    Optional<Role> findByName(String  name);
+}
+>>>>>>> aa5d7930261bfcda661c8514cba1651c03c65717
