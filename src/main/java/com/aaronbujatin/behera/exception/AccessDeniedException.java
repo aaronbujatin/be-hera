@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.aaronbujatin.behera.exception;
 
 public class AccessDeniedException extends RuntimeException{
@@ -7,13 +7,4 @@ public class AccessDeniedException extends RuntimeException{
         super(message);
     }
 }
-=======
-package com.aaronbujatin.behera.exception;
 
-public class AccessDeniedException extends RuntimeException{
-
-    public AccessDeniedException(String message) {
-        super(message);
-    }
-}
->>>>>>> aa5d7930261bfcda661c8514cba1651c03c65717
