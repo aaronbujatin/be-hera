@@ -54,18 +54,38 @@ public class CartServiceImpl implements CartService {
             if (productInCart.get().getProduct().getStock() < productInCart.get().getQuantity() + cartItem.getQuantity()) {
                 throw new InvalidArgumentException("Product does not have the desired stock");
             }
+
+                int quantity = productInCart.get().getQuantity() + cartItem.getQuantity();
+                productInCart.get().setQuantity(quantity);
+                productInCart.get().setProduct(cartItem.getProduct());
+                productInCart.get().setCart(cart);
+
+                Product product = productRepository.findById(productInCart.get().getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
+
+                int currentStock = product.getStock() - quantity;
+                product.setStock(currentStock);
+                productRepository.save(product);
+
         } else {
             // Product is not in the cart, check stock before adding
             if (cartItem.getQuantity() > cartItem.getProduct().getStock()) {
                 throw new InvalidArgumentException("Product does not have the desired stock");
             }
 
-            // If the product was not present in CartItem then Create and add a new CartItem Object
+//             If the product was not present in CartItem then Create and add a new CartItem Object
             CartItem cartItem1 = new CartItem();
             cartItem1.setQuantity(cartItem.getQuantity());
             cartItem1.setProduct(cartItem.getProduct());
             cartItem1.setCart(cart);
             cart.getCartItems().add(cartItem1);
+
+            Product product = productRepository.findById(productInCart.get().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
+
+            int currentStock = product.getStock() - cartItem1.getQuantity();
+            product.setStock(currentStock);
+            productRepository.save(product);
         }
 
         // Save the cart and calculate total amount
@@ -136,7 +156,6 @@ public class CartServiceImpl implements CartService {
                     cart.setTotalAmount(cart.getTotalAmount() + (cartItem.getProduct().getPrice() * cartItem.getQuantity()));
                 }
         );
-        cart.setTotalAmount(cart.getTotalAmount());
         return cart;
     }
 
