@@ -60,7 +60,7 @@ public class CartServiceImpl implements CartService {
                 productInCart.get().setProduct(cartItem.getProduct());
                 productInCart.get().setCart(cart);
 
-                Product product = productRepository.findById(productInCart.get().getId())
+                Product product = productRepository.findById(cartItem.getProduct().getId())
                         .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
 
                 int currentStock = product.getStock() - quantity;
@@ -80,7 +80,7 @@ public class CartServiceImpl implements CartService {
             cartItem1.setCart(cart);
             cart.getCartItems().add(cartItem1);
 
-            Product product = productRepository.findById(productInCart.get().getId())
+            Product product = productRepository.findById(cartItem.getProduct().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
 
             int currentStock = product.getStock() - cartItem1.getQuantity();
