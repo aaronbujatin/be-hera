@@ -16,7 +16,7 @@ public interface CartService {
     void emptyItemFromCart();
     Cart calculateTotalAmount(Cart cart);
     List<Cart> getAllCart();
-
+    Cart deleteByUser(Long id);
     List<CartItem> getAllCartItem();
 
 }

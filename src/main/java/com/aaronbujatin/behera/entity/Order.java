@@ -2,10 +2,8 @@ package com.aaronbujatin.behera.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "carts")
+@ToString
+@Table(name = "orders")
 @Entity
-public class Cart {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +23,13 @@ public class Cart {
     private double totalAmount;
     private LocalDate dateCreated;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order")
     @JsonManagedReference
-    private List<CartItem> cartItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
+
 
 }
-
-

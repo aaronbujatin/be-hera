@@ -165,6 +165,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart deleteByUser(Long id) {
+        return null;
+    }
+
+    @Override
     public List<CartItem> getAllCartItem() {
         return cartItemRepository.findAll();
     }
