@@ -5,6 +5,7 @@ import com.aaronbujatin.behera.entity.Cart;
 import com.aaronbujatin.behera.entity.CartItem;
 import com.aaronbujatin.behera.entity.Product;
 import com.aaronbujatin.behera.entity.User;
+import com.aaronbujatin.behera.exception.CannotDeleteResourceException;
 import com.aaronbujatin.behera.exception.InvalidArgumentException;
 import com.aaronbujatin.behera.exception.ResourceNotFoundException;
 import com.aaronbujatin.behera.repository.CartItemRepository;
@@ -12,7 +13,9 @@ import com.aaronbujatin.behera.repository.CartRepository;
 import com.aaronbujatin.behera.repository.ProductRepository;
 import com.aaronbujatin.behera.service.CartService;
 import com.aaronbujatin.behera.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CartServiceImpl implements CartService {
@@ -30,7 +34,7 @@ public class CartServiceImpl implements CartService {
     private final CartItemRepository cartItemRepository;
 
     @Override
-    public CartItem addItemToCart(CartItem cartItem) {
+    public CartItem addItemToCart(CartItem cartItemRequest) {
         //Get the authenticated user and get its cart
         User user = userService.getUser();
         Cart cart = user.getCart();
@@ -45,45 +49,55 @@ public class CartServiceImpl implements CartService {
         // Check if the product is already in the cart
         Optional<CartItem> productInCart = cart.getCartItems()
                 .stream()
-                .filter(ci -> ci.getProduct().getId().equals(cartItem.getProduct().getId()))
+                .filter(ci -> ci.getProduct().getId().equals(cartItemRequest.getProduct().getId()))
                 .findFirst();
 
         //check if the product was present
         if (productInCart.isPresent()) {
             // Product is already in the cart and check if the quantity is available in stock
-            if (productInCart.get().getProduct().getStock() < productInCart.get().getQuantity() + cartItem.getQuantity()) {
+            int productQuantity = productInCart.get().getQuantity() + cartItemRequest.getQuantity();
+            int productStock = productInCart.get().getProduct().getStock();
+
+            if (productStock < productQuantity) {
                 throw new InvalidArgumentException("Product does not have the desired stock");
             }
 
-                int quantity = productInCart.get().getQuantity() + cartItem.getQuantity();
-                productInCart.get().setQuantity(quantity);
-                productInCart.get().setProduct(cartItem.getProduct());
-                productInCart.get().setCart(cart);
+            Product product = cartItemRequest.getProduct();
 
-                Product product = productRepository.findById(cartItem.getProduct().getId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
+            productInCart.get().setQuantity(productQuantity);
+            productInCart.get().setProduct(product);
+            productInCart.get().setCart(cart);
 
-                int currentStock = product.getStock() - quantity;
-                product.setStock(currentStock);
-                productRepository.save(product);
+            Product updatedProduct = productRepository.findById(product.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
+
+            int currentStock = updatedProduct.getStock() - productQuantity;
+            updatedProduct.setStock(currentStock);
+            productRepository.save(updatedProduct);
 
         } else {
             // Product is not in the cart, check stock before adding
-            if (cartItem.getQuantity() > cartItem.getProduct().getStock()) {
+
+            Product product = cartItemRequest.getProduct();
+
+            Product productInDatabase = productRepository.findById(product.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
+
+            int productQuantity = cartItemRequest.getQuantity();
+            int productStock = productInDatabase.getStock();
+
+            if (productStock < productQuantity) {
                 throw new InvalidArgumentException("Product does not have the desired stock");
             }
 
-//             If the product was not present in CartItem then Create and add a new CartItem Object
-            CartItem cartItem1 = new CartItem();
-            cartItem1.setQuantity(cartItem.getQuantity());
-            cartItem1.setProduct(cartItem.getProduct());
-            cartItem1.setCart(cart);
-            cart.getCartItems().add(cartItem1);
+//          If the product was not present in CartItem then Create and add a new CartItem Object
+            CartItem cartItem = new CartItem();
+            cartItem.setQuantity(productQuantity);
+            cartItem.setProduct(product);
+            cartItem.setCart(cart);
+            cart.getCartItems().add(cartItem);
 
-            Product product = productRepository.findById(cartItem.getProduct().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product " + productInCart.get().getId() + " was not found!"));
-
-            int currentStock = product.getStock() - cartItem1.getQuantity();
+            int currentStock = productStock - productQuantity;
             product.setStock(currentStock);
             productRepository.save(product);
         }
@@ -94,7 +108,7 @@ public class CartServiceImpl implements CartService {
         cart.setDateCreated(LocalDate.now());
         cartRepository.save(cart);
 
-        return cartItem;
+        return cartItemRequest;
     }
 
 
@@ -144,6 +158,35 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
+    public String deleteById(Long id) {
+        User user = userService.getUser();
+        Cart cart = user.getCart();
+        user.setCart(null);
+
+        return "cart item deleted";
+
+//        try {
+//            User user = userService.getUser();
+//            Cart cart = user.getCart();
+//            List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId());
+//
+//            if (!cartItems.isEmpty()) {
+//                log.info("Cart Items deletion: {}", cartItems);
+//                cartItems.forEach(cartItem -> cartItemRepository.deleteByCartId(cart.getId()));
+//                cartRepository.deleteByUserId(user.getId());
+//                log.info("Cart deletion");
+//                return "Cart successfully deleted!";
+//            } else {
+//                throw new ResourceNotFoundException("Cart not found for user id: ");
+//            }
+//        } catch (Exception e) {
+//            log.error("Error deleting cart with id: " , e);
+//            throw new CannotDeleteResourceException("Error deleting cart.");
+//        }
+    }
+
+    @Override
     public void emptyItemFromCart() {
 
     }
@@ -153,9 +196,9 @@ public class CartServiceImpl implements CartService {
         cart.setTotalAmount(0);
         cart.getCartItems()
                 .forEach(cartItem -> {
-                    cart.setTotalAmount(cart.getTotalAmount() + (cartItem.getProduct().getPrice() * cartItem.getQuantity()));
-                }
-        );
+                            cart.setTotalAmount(cart.getTotalAmount() + (cartItem.getProduct().getPrice() * cartItem.getQuantity()));
+                        }
+                );
         return cart;
     }
 
@@ -172,6 +215,19 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartItem> getAllCartItem() {
         return cartItemRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public String deleteByCartId(Long id) {
+//        cartItemRepository.deleteByCartId(id);
+        Cart cart = cartRepository.findById(id).get();
+        if (cart != null) {
+            cartRepository.deleteById(cart.getId());
+            return "Cart item deleted";
+        } else {
+            throw new CannotDeleteResourceException("Cannot delete cart");
+        }
     }
 
 

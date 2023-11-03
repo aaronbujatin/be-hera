@@ -5,11 +5,12 @@ import com.aaronbujatin.behera.exception.InvalidArgumentException;
 import com.aaronbujatin.behera.repository.*;
 import com.aaronbujatin.behera.service.OrderService;
 import com.aaronbujatin.behera.service.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final UserService userService;
+    private final EntityManager entityManager;
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
 
 
     @Override
+    @Transactional
     public Order save() {
         User user = userService.getUser();
         Cart cart = user.getCart();
@@ -54,13 +57,12 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
 
         orderItemRepository.saveAll(orderItems);
-        Cart cartToDelete = cartRepository.findByUserId(user.getId());
-        if(cartToDelete != null){
-            cartRepository.delete(cartToDelete);
-        } else {
-            throw new InvalidArgumentException("Cart to delete was empty or null.");
+//        cartRepository.delete(cart);
+//        user.setCart(null);
+        entityManager.remove(cart);
+        for (CartItem cartItem : cartItems) {
+            entityManager.remove(cartItem);
         }
-
         return order;
     }
 
