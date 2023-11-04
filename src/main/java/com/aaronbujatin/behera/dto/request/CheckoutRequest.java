@@ -15,7 +15,6 @@ import java.util.List;
 public class CheckoutRequest {
 
     private Long userId;
-    private List<CartItem> cartItems;
     private String address;
 
 }

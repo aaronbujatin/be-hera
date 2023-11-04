@@ -30,8 +30,8 @@ public class CartController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CartItem>> getAllItemInCart(){
-        List<CartItem> cartItemResponse = cartService.getAllCartItem();
+    public ResponseEntity<List<Cart>> getAllItemInCart(){
+        List<Cart> cartItemResponse = cartService.getAllCart();
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 

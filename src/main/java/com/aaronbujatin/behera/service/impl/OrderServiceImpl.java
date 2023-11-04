@@ -22,15 +22,13 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final UserService userService;
-    private final EntityManager entityManager;
-    private final ProductRepository productRepository;
-    private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
+    private final AddressRepository addressRepository;
+    private final PaymentRepository paymentRepository;
 
 
     @Override
     @Transactional
-    public Order save() {
+    public Order save(Order orderRequest) {
         User user = userService.getUser();
         Cart cart = user.getCart();
         List<CartItem> cartItems = cart.getCartItems();
@@ -41,8 +39,12 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         order.setUser(user);
+        order.setAddress(orderRequest.getAddress());
+        order.setPayment(orderRequest.getPayment());
         order.setTotalAmount(cart.getTotalAmount());
         order.setDateCreated(cart.getDateCreated());
+        orderRequest.getAddress().setOrder(order);
+        orderRequest.getPayment().setOrder(order);
         log.info("Order object : {}", order);
         orderRepository.save(order);
 
@@ -57,18 +59,15 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
 
         orderItemRepository.saveAll(orderItems);
-//        cartRepository.delete(cart);
-//        user.setCart(null);
-        entityManager.remove(cart);
-        for (CartItem cartItem : cartItems) {
-            entityManager.remove(cartItem);
-        }
+        user.setCart(null);
         return order;
     }
 
     @Override
     public List<Order> getAllOrder() {
-        return null;
+        User user = userService.getUser();
+        List<Order> orders = orderRepository.findByUser_Id(user.getId());
+        return orders;
     }
 
     @Override

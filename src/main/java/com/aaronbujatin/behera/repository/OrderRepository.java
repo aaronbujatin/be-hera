@@ -1,7 +1,13 @@
 package com.aaronbujatin.behera.repository;
 
 import com.aaronbujatin.behera.entity.Order;
+import com.aaronbujatin.behera.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    List<Order> findByUser_Id(Long userId);
+
 }

@@ -1,16 +1,11 @@
 
 package com.aaronbujatin.behera.service.impl;
 
-import com.aaronbujatin.behera.entity.Cart;
-import com.aaronbujatin.behera.entity.CartItem;
-import com.aaronbujatin.behera.entity.Product;
-import com.aaronbujatin.behera.entity.User;
+import com.aaronbujatin.behera.entity.*;
 import com.aaronbujatin.behera.exception.CannotDeleteResourceException;
 import com.aaronbujatin.behera.exception.InvalidArgumentException;
 import com.aaronbujatin.behera.exception.ResourceNotFoundException;
-import com.aaronbujatin.behera.repository.CartItemRepository;
-import com.aaronbujatin.behera.repository.CartRepository;
-import com.aaronbujatin.behera.repository.ProductRepository;
+import com.aaronbujatin.behera.repository.*;
 import com.aaronbujatin.behera.service.CartService;
 import com.aaronbujatin.behera.service.UserService;
 import jakarta.transaction.Transactional;
@@ -22,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +28,8 @@ public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final ProductRepository productRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public CartItem addItemToCart(CartItem cartItemRequest) {
@@ -162,28 +160,34 @@ public class CartServiceImpl implements CartService {
     public String deleteById(Long id) {
         User user = userService.getUser();
         Cart cart = user.getCart();
+        List<CartItem> cartItems = cart.getCartItems();
+
+        if (cartItems.isEmpty()) {
+            throw new InvalidArgumentException("Cannot place order. No cart items");
+        }
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setTotalAmount(cart.getTotalAmount());
+        order.setDateCreated(cart.getDateCreated());
+        log.info("Order object : {}", order);
+        orderRepository.save(order);
+
+        List<OrderItem> orderItems = cartItems.stream()
+                .map(cartItem -> {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setQuantity(cartItem.getQuantity());
+                    orderItem.setOrder(order);
+                    orderItem.setProduct(cartItem.getProduct());
+                    return orderItem;
+                })
+                .collect(Collectors.toList());
+
+        orderItemRepository.saveAll(orderItems);
         user.setCart(null);
 
         return "cart item deleted";
 
-//        try {
-//            User user = userService.getUser();
-//            Cart cart = user.getCart();
-//            List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId());
-//
-//            if (!cartItems.isEmpty()) {
-//                log.info("Cart Items deletion: {}", cartItems);
-//                cartItems.forEach(cartItem -> cartItemRepository.deleteByCartId(cart.getId()));
-//                cartRepository.deleteByUserId(user.getId());
-//                log.info("Cart deletion");
-//                return "Cart successfully deleted!";
-//            } else {
-//                throw new ResourceNotFoundException("Cart not found for user id: ");
-//            }
-//        } catch (Exception e) {
-//            log.error("Error deleting cart with id: " , e);
-//            throw new CannotDeleteResourceException("Error deleting cart.");
-//        }
     }
 
     @Override
@@ -204,7 +208,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> getAllCart() {
-        return cartRepository.findAll();
+        User user = userService.getUser();
+        return cartRepository.findByUser_Id(user.getId());
     }
 
     @Override

@@ -24,8 +24,18 @@ public class Order {
     private double totalAmount;
     private LocalDate dateCreated;
 
+    @OneToOne(mappedBy = "order",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Address address;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Payment payment;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "order")

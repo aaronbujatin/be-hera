@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(value = "http://localhost:4200")
 @RequiredArgsConstructor
 @RestController
@@ -16,10 +18,16 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping
-    public ResponseEntity<Order> save(){
-        Order order = orderService.save();
-        return new ResponseEntity<>(order, HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<Order> save(@RequestBody Order order){
+        Order orderResponse = orderService.save(order);
+        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Order>> getAllOrderByUserId(){
+        List<Order> response = orderService.getAllOrder();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
