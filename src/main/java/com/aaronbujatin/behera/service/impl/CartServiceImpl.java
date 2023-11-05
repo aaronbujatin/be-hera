@@ -126,7 +126,7 @@ public class CartServiceImpl implements CartService {
         int productStock = productInDatabase.getStock();
 
         //checking if the product has available stock
-        if (productStock < productQuantity) {
+        if (productStock <= productQuantity) {
             throw new InvalidArgumentException("You reached the maximum stock");
         } else {
             //find the product id in cart
@@ -162,47 +162,83 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartItem decrementItemToCart(CartItem cartItem) {
-        return null;
+    public CartItem decrementItemToCart(CartItem cartItemRequest) {
+        User user = userService.getUser();
+        Cart cart = user.getCart();
+        Product product = cartItemRequest.getProduct();
+
+        Product productInDatabase = productRepository.findById(product.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
+
+        //getting the quantity of product from cart item
+        int productQuantity = cartItemRequest.getQuantity();
+        //getting the stock of product from database
+        int productStock = productInDatabase.getStock();
+
+        if (productQuantity == 1) {
+            throw new InvalidArgumentException("You reached the minimum quantity");
+        } else {
+            //find the product id in cart
+            Optional<CartItem> productInCart = cart.getCartItems()
+                    .stream()
+                    .filter(ci -> ci.getProduct().getId().equals(cartItemRequest.getProduct().getId()))
+                    .findFirst();
+
+            //add the product quantity from cart item request to product quantity from the existing cartItems in cart that found
+            int updatedQuantity = productQuantity - productInCart.get().getQuantity();
+
+            //set the updated product quantity from cart item
+            productInCart.get().setQuantity(updatedQuantity);
+
+
+            cart = calculateTotalAmount(cart);
+            cartRepository.save(cart);
+
+        }
+        return cartItemRequest;
     }
 
     @Override
     public CartItem removeItemFromCart(Long id) {
+
+//        CartItem cartItem = cartItemRepository.findByCartId(id);
+
         return null;
     }
 
     @Override
     @Transactional
-    public String deleteById(Long id) {
+    public String deleteCartItemById(Long id) {
         User user = userService.getUser();
         Cart cart = user.getCart();
-        List<CartItem> cartItems = cart.getCartItems();
 
-        if (cartItems.isEmpty()) {
-            throw new InvalidArgumentException("Cannot place order. No cart items");
+        // Find the CartItem to be deleted
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
+
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+
+            // Remove the CartItem from the Cart
+            cart.getCartItems().remove(cartItem);
+
+            // Delete the CartItem from the database
+            cartItemRepository.deleteById(id);
+
+            if (!cart.getCartItems().isEmpty()) {
+                // Calculate and update the total amount for the Cart
+                cart = calculateTotalAmount(cart);
+                cartRepository.save(cart);
+            } else {
+                // If the cart is empty, delete it from the database
+                cart.setTotalAmount(0);
+                cartRepository.save(cart);
+            }
+
+            return "Cart item deleted";
+        } else {
+            // Handle the case where the CartItem with the given ID doesn't exist
+            return "Cart item not found";
         }
-
-        Order order = new Order();
-        order.setUser(user);
-        order.setTotalAmount(cart.getTotalAmount());
-        order.setDateCreated(cart.getDateCreated());
-        log.info("Order object : {}", order);
-        orderRepository.save(order);
-
-        List<OrderItem> orderItems = cartItems.stream()
-                .map(cartItem -> {
-                    OrderItem orderItem = new OrderItem();
-                    orderItem.setQuantity(cartItem.getQuantity());
-                    orderItem.setOrder(order);
-                    orderItem.setProduct(cartItem.getProduct());
-                    return orderItem;
-                })
-                .collect(Collectors.toList());
-
-        orderItemRepository.saveAll(orderItems);
-        user.setCart(null);
-
-        return "cart item deleted";
 
     }
 

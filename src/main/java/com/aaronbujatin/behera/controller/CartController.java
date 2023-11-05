@@ -35,6 +35,16 @@ public class CartController {
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/decrement")
+    public ResponseEntity<CartItem> decrementCartItemQuantity(@RequestBody CartItem cartItem){
+        CartItem cartItemResponse = cartService.decrementItemToCart(cartItem);
+        return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCartItemById(@PathVariable Long id) {
+        return new ResponseEntity<>(cartService.deleteCartItemById(id), HttpStatus.OK);
+    }
 
     @GetMapping()
     public ResponseEntity<List<Cart>> getAllItemInCart(){
@@ -42,23 +52,6 @@ public class CartController {
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCart(@PathVariable Long id){
-        String response = cartService.deleteById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-
-//    @GetMapping()
-//    public ResponseEntity<List<Cart>> getCartItemById(){
-//        List<Cart> cartResponse = cartService.getAllCart();
-//        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
-//    }
-    @DeleteMapping("/cartItem/{id}")
-    public ResponseEntity<String> deleteCartItemById(@PathVariable Long id){
-        String response = cartService.deleteByCartId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     @DeleteMapping("delete-cart")
     public ResponseEntity<String> deleteCart(){

@@ -13,7 +13,7 @@ public interface CartService {
     CartItem incrementItemToCart(CartItem cartItem);
     CartItem decrementItemToCart(CartItem cartItem);
     CartItem removeItemFromCart(Long id);
-    String deleteById(Long id);
+    String deleteCartItemById(Long id);
     void emptyItemFromCart();
     Cart calculateTotalAmount(Cart cart);
     List<Cart> getAllCart();
