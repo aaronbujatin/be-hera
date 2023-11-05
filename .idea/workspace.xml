@@ -7,23 +7,12 @@
     <list default="true" id="8475f72a-c6ad-4401-b363-7ed3d77ffae6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/CartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/dto/request/CheckoutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/dto/request/CheckoutRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Address.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/repository/CartRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/repository/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Payment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/CartServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/OrderServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/CartController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/request/CheckoutRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/dto/request/CheckoutRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Cart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Cart.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/CartRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/CartRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/OrderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/repository/OrderRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/OrderService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/CartServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/CartServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/OrderServiceImpl.class" afterDir="false" />
     </list>
@@ -99,6 +88,19 @@
     <servers />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/OrderController.java</url>
+          <line>21</line>
+          <properties class="com.aaronbujatin.behera.controller.OrderController" method="save">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.aaronbujatin.behera.controller.AuthenticationController" memberName="authenticationManager" />

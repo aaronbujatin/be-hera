@@ -1,5 +1,6 @@
 package com.aaronbujatin.behera.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Payment {
 
     @OneToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Order order;
 }

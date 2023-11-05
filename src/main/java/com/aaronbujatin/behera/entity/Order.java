@@ -25,11 +25,11 @@ public class Order {
     private LocalDate dateCreated;
 
     @OneToOne(mappedBy = "order",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private Address address;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private Payment payment;
 
 

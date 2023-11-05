@@ -2,6 +2,7 @@ package com.aaronbujatin.behera.service.impl;
 
 import com.aaronbujatin.behera.entity.*;
 import com.aaronbujatin.behera.exception.InvalidArgumentException;
+import com.aaronbujatin.behera.exception.ResourceNotFoundException;
 import com.aaronbujatin.behera.repository.*;
 import com.aaronbujatin.behera.service.OrderService;
 import com.aaronbujatin.behera.service.UserService;
@@ -24,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final AddressRepository addressRepository;
     private final PaymentRepository paymentRepository;
+    private final ProductRepository productRepository;
 
 
     @Override
@@ -48,6 +50,20 @@ public class OrderServiceImpl implements OrderService {
         log.info("Order object : {}", order);
         orderRepository.save(order);
 
+        cartItems.forEach(orderItem -> {
+            Product product = productRepository.findById(orderItem.getProduct().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with id : " + orderItem.getProduct().getId()));
+
+            int orderQuantity = orderItem.getQuantity();
+            int currentStock = product.getStock();
+
+            int updatedStock = currentStock - orderQuantity;
+
+           product.setStock(updatedStock);
+           productRepository.save(product);
+        });
+
+        //saving the order items
         List<OrderItem> orderItems = cartItems.stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();

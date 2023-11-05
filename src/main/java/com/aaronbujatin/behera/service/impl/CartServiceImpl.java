@@ -66,12 +66,12 @@ public class CartServiceImpl implements CartService {
             productInCart.get().setProduct(product);
             productInCart.get().setCart(cart);
 
-            Product updatedProduct = productRepository.findById(product.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
-
-            int currentStock = updatedProduct.getStock() - productQuantity;
-            updatedProduct.setStock(currentStock);
-            productRepository.save(updatedProduct);
+//            Product updatedProduct = productRepository.findById(product.getId())
+//                    .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
+//
+//            int currentStock = updatedProduct.getStock() - productQuantity;
+//            updatedProduct.setStock(currentStock);
+//            productRepository.save(updatedProduct);
 
         } else {
             // Product is not in the cart, check stock before adding
@@ -95,9 +95,9 @@ public class CartServiceImpl implements CartService {
             cartItem.setCart(cart);
             cart.getCartItems().add(cartItem);
 
-            int currentStock = productStock - productQuantity;
-            product.setStock(currentStock);
-            productRepository.save(product);
+//            int currentStock = productStock - productQuantity;
+//            product.setStock(currentStock);
+//            productRepository.save(product);
         }
 
         // Save the cart and calculate total amount
@@ -110,39 +110,55 @@ public class CartServiceImpl implements CartService {
     }
 
 
-//    @Override
-//    public CartItem addItemToCart(CartItem cartItem) {
-//        User user = userService.getUser();
-//        Cart cart = user.getCart();
-//        if (Objects.nonNull(cart) && Objects.nonNull(cart.getCartItems()) && !cart.getCartItems().isEmpty()) {
-//            Optional<CartItem> productInCart = cart.getCartItems()
-//                    .stream()
-//                    .filter(ci -> ci.getProduct().getId().equals(cartItem.getProduct().getId()))
-//                    .findFirst();
-//            if (productInCart.isEmpty()) {
-//                if (productInCart.get().getProduct().getStock() < productInCart.get().getQuantity() + cartItem.getQuantity()) {
-//                    throw new InvalidArgumentException("Product does not have a desired stock");
-//                }
-//                Cart updatedCart = calculateTotalAmount(cart);
-//                cartRepository.save(updatedCart);
-//            }
-//        }
-//        Product product = productRepository.findById(cartItem.getProduct().getId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Product with id of " + cartItem.getProduct().getId()  + " was not found!"));
-//
-//        CartItem cartItem1 = new CartItem();
-//        cartItem1.setQuantity(cartItem.getQuantity());
-//        cartItem1.setProduct(product);
-//        cartItemRepository.save(cartItem1);
-////        cart.getCartItems().add(cartItem1);
-//        calculateTotalAmount(cart);
-//        cartRepository.save(cart);
-//        return cartItem1;
-//    }
-
     @Override
-    public CartItem incrementItemToCart(CartItem cartItem) {
-        return null;
+    public CartItem incrementItemToCart(CartItem cartItemRequest) {
+
+        User user = userService.getUser();
+        Cart cart = user.getCart();
+        Product product = cartItemRequest.getProduct();
+
+        Product productInDatabase = productRepository.findById(product.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
+
+        //getting the quantity of product from cart item
+        int productQuantity = cartItemRequest.getQuantity();
+        //getting the stock of product from database
+        int productStock = productInDatabase.getStock();
+
+        //checking if the product has available stock
+        if (productStock < productQuantity) {
+            throw new InvalidArgumentException("You reached the maximum stock");
+        } else {
+            //find the product id in cart
+            Optional<CartItem> productInCart = cart.getCartItems()
+                    .stream()
+                    .filter(ci -> ci.getProduct().getId().equals(cartItemRequest.getProduct().getId()))
+                    .findFirst();
+
+            //add the product quantity from cart item request to product quantity from the existing cartItems in cart that found
+            int updatedQuantity = productQuantity + productInCart.get().getQuantity();
+
+            //set the updated product quantity from cart item
+            productInCart.get().setQuantity(updatedQuantity);
+
+//            int currentStock = productInDatabase.getStock() - productQuantity;
+//
+//            productInDatabase.setStock(currentStock);
+//            productRepository.save(productInDatabase);
+
+            cart = calculateTotalAmount(cart);
+            cartRepository.save(cart);
+
+        }
+
+
+
+//        int currentStock = productStock - productQuantity;
+//        product.setStock(currentStock);
+//        productRepository.save(product);
+
+
+        return cartItemRequest;
     }
 
     @Override

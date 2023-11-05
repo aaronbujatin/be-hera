@@ -29,6 +29,13 @@ public class CartController {
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/increment")
+    public ResponseEntity<CartItem> incrementCartItemQuantity(@RequestBody CartItem cartItem){
+        CartItem cartItemResponse = cartService.incrementItemToCart(cartItem);
+        return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
+    }
+
+
     @GetMapping()
     public ResponseEntity<List<Cart>> getAllItemInCart(){
         List<Cart> cartItemResponse = cartService.getAllCart();
@@ -40,6 +47,7 @@ public class CartController {
         String response = cartService.deleteById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
 //    @GetMapping()
 //    public ResponseEntity<List<Cart>> getCartItemById(){
