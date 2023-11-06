@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8475f72a-c6ad-4401-b363-7ed3d77ffae6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/CartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/security/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/CartServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

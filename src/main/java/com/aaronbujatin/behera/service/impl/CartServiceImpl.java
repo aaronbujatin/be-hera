@@ -167,29 +167,28 @@ public class CartServiceImpl implements CartService {
         Cart cart = user.getCart();
         Product product = cartItemRequest.getProduct();
 
-        Product productInDatabase = productRepository.findById(product.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
-
         //getting the quantity of product from cart item
         int productQuantity = cartItemRequest.getQuantity();
         //getting the stock of product from database
-        int productStock = productInDatabase.getStock();
+//        int productStock = productInDatabase.getStock();
 
-        if (productQuantity == 1) {
+        //find the product id in cart
+        Optional<CartItem> productInCart = cart.getCartItems()
+                .stream()
+                .filter(ci -> ci.getProduct().getId().equals(cartItemRequest.getProduct().getId()))
+                .findFirst();
+
+        //add the product quantity from cart item request to product quantity from the existing cartItems in cart that found
+        int productQuantityInCartItem = productInCart.get().getQuantity();
+
+        if (productQuantityInCartItem == 1) {
             throw new InvalidArgumentException("You reached the minimum quantity");
         } else {
-            //find the product id in cart
-            Optional<CartItem> productInCart = cart.getCartItems()
-                    .stream()
-                    .filter(ci -> ci.getProduct().getId().equals(cartItemRequest.getProduct().getId()))
-                    .findFirst();
-
-            //add the product quantity from cart item request to product quantity from the existing cartItems in cart that found
-            int updatedQuantity = productQuantity - productInCart.get().getQuantity();
-
-            //set the updated product quantity from cart item
+//            //add the product quantity from cart item request to product quantity from the existing cartItems in cart that found
+            int updatedQuantity = productQuantityInCartItem - productQuantity;
+//
+//            //set the updated product quantity from cart item
             productInCart.get().setQuantity(updatedQuantity);
-
 
             cart = calculateTotalAmount(cart);
             cartRepository.save(cart);
