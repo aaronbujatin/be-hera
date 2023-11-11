@@ -11,5 +11,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findTop10ByOrderByDateCreatedDesc();
 
+    List<Product> findByCategoryAndBrandIn(String category, List<String> brands);
+
+    List<Product> findByCategory(String category);
+
 }
 

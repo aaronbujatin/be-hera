@@ -18,4 +18,10 @@ public interface ProductService {
     void deleteProductById(Long id);
 
     List<Product> getFiveRecentAddedProduct();
+
+    List<Product> getProductsByCategoryAndBrands(String category, List<String> brands);
+
+    List<Product> getProductsByCategory(String category);
+
+
 }

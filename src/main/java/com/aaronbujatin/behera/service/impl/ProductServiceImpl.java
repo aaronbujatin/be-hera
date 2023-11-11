@@ -47,4 +47,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getFiveRecentAddedProduct() {
         return productRepository.findTop10ByOrderByDateCreatedDesc();
     }
+
+    @Override
+    public List<Product> getProductsByCategoryAndBrands(String category, List<String> brands) {
+        return productRepository.findByCategoryAndBrandIn(category, brands);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        return productRepository.findByCategory(category);
+    }
 }

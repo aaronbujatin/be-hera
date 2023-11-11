@@ -40,6 +40,20 @@ public class ProductController {
         return new ResponseEntity<>(productService.getFiveRecentAddedProduct(), HttpStatus.OK);
     }
 
+    @GetMapping("/collections")
+    public ResponseEntity<List<Product>> getAllProductByBrand(@RequestParam String category,
+                                                              @RequestParam(required = false) List<String> brands){
+
+        List<Product> productsResponse;
+        if(brands == null){
+            productsResponse = productService.getProductsByCategory(category);
+        } else {
+            productsResponse = productService.getProductsByCategoryAndBrands(category, brands);
+        }
+
+        return new ResponseEntity<>(productsResponse, HttpStatus.OK);
+    }
+
     //update
     //delete
 
