@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -43,15 +45,30 @@ public class ProductController {
     @GetMapping("/collections")
     public ResponseEntity<List<Product>> getAllProductByBrand(@RequestParam String category,
                                                               @RequestParam(required = false) List<String> brands){
-
         List<Product> productsResponse;
         if(brands == null){
             productsResponse = productService.getProductsByCategory(category);
         } else {
             productsResponse = productService.getProductsByCategoryAndBrands(category, brands);
         }
-
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/brands/{category}")
+    public ResponseEntity<Map<String, Long>> getBrandsByCategory(@PathVariable String category){
+        Map<String, Long> brandsResponse = productService.getBrandsByCategory(category);
+        return new ResponseEntity<>(brandsResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/price")
+    public ResponseEntity<List<Product>> getMotherboardsInPriceRange(
+            @RequestParam("category") String category,
+            @RequestParam("minPrice") double minPrice,
+            @RequestParam("maxPrice") double maxPrice) {
+
+        List<Product> productResponse = productService.getProductsByCategoryAndPriceBetween(category, minPrice, maxPrice);
+
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
     //update

@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -56,5 +57,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductsByCategory(String category) {
         return productRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryAndBrand() {
+        return null;
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryAndPriceBetween(String category, double minPrice, double maxPrice) {
+        return productRepository.findByCategoryAndPriceBetween(category, minPrice, maxPrice);
+    }
+
+    @Override
+    public Map<String, Long> getBrandsByCategory(String category) {
+        List<Product> products = productRepository.findByCategory(category);
+        // Count occurrences of each brand using groupingBy
+        Map<String, Long> brandQuantities = products.stream()
+                .collect(Collectors.groupingBy(Product::getBrand, Collectors.counting()));
+
+        return brandQuantities;
     }
 }
