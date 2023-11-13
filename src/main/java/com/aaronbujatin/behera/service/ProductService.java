@@ -2,9 +2,13 @@
 package com.aaronbujatin.behera.service;
 
 import com.aaronbujatin.behera.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ProductService {
@@ -30,6 +34,16 @@ public interface ProductService {
     List<Product> getProductsByCategoryAndPriceBetween(String category, double minPrice, double maxPrice);
 
     Map<String, Long> getBrandsByCategory(String category);
+
+    Optional<Double> getMaxPriceByCategory(String category);
+
+    Page<Product> getProductsByFilter(Double minPrice,
+                                      Double maxPrice,
+                                      String brand,
+                                      String category,
+                                      String sortBy,
+                                      String sortDirection,
+                                      Pageable pageable);
 
 
 }

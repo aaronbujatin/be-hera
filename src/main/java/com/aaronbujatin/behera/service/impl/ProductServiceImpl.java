@@ -6,6 +6,8 @@ import com.aaronbujatin.behera.exception.InvalidArgumentException;
 import com.aaronbujatin.behera.repository.ProductRepository;
 import com.aaronbujatin.behera.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -77,5 +79,21 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.groupingBy(Product::getBrand, Collectors.counting()));
 
         return brandQuantities;
+    }
+
+    @Override
+    public Optional<Double> getMaxPriceByCategory(String category) {
+        return productRepository.findMaxPriceByCategory(category);
+    }
+
+    @Override
+    public Page<Product> getProductsByFilter(Double minPrice, Double maxPrice,
+                                             String brand, String category,
+                                             String sortBy, String sortDirection,
+                                             Pageable pageable) {
+        return productRepository.findProductsByFilters(
+                minPrice, maxPrice,
+                brand, category,
+                sortBy, sortDirection,pageable);
     }
 }
