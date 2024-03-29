@@ -34,13 +34,17 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> getProductById(@PathVariable(name = "id") Long id){
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<Product>> getAllProduct(){
-        return new ResponseEntity<>(productService.getAllProduct(), HttpStatus.OK);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<Product>> getAllProduct(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return new ResponseEntity<>(productService.getAllProduct(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/new-arrival")
@@ -71,9 +75,7 @@ public class ProductController {
             @RequestParam("category") String category,
             @RequestParam("minPrice") double minPrice,
             @RequestParam("maxPrice") double maxPrice) {
-
         List<Product> productResponse = productService.getProductsByCategoryAndPriceBetween(category, minPrice, maxPrice);
-
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
@@ -95,6 +97,7 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "ASC") String sortDirection){
 
         Pageable pageable = PageRequest.of(page, size);
+
         Page<Product> filteredProducts = productService.getProductsByFilter(minPrice, maxPrice, brand,
                 category, sortBy,
                 sortDirection, pageable);

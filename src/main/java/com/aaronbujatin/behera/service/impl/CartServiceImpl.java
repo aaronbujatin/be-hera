@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -66,16 +65,8 @@ public class CartServiceImpl implements CartService {
             productInCart.get().setProduct(product);
             productInCart.get().setCart(cart);
 
-//            Product updatedProduct = productRepository.findById(product.getId())
-//                    .orElseThrow(() -> new ResourceNotFoundException("Product " + product.getId() + " was not found!"));
-//
-//            int currentStock = updatedProduct.getStock() - productQuantity;
-//            updatedProduct.setStock(currentStock);
-//            productRepository.save(updatedProduct);
-
         } else {
             // Product is not in the cart, check stock before adding
-
             Product product = cartItemRequest.getProduct();
 
             Product productInDatabase = productRepository.findById(product.getId())

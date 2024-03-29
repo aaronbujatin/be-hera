@@ -17,7 +17,7 @@ public interface ProductService {
 
     Product getProductById(Long id);
 
-    List<Product> getAllProduct();
+//    List<Product> getAllProduct();
 
     Product updateProduct(Product product);
 
@@ -44,6 +44,8 @@ public interface ProductService {
                                       String sortBy,
                                       String sortDirection,
                                       Pageable pageable);
+
+    Page<Product> getAllProduct(Pageable pageable);
 
 
 }

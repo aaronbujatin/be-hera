@@ -43,5 +43,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("sortBy") String sortBy, @Param("sortDirection") String sortDirection, Pageable pageable);
 
 
+    @Override
+    Page<Product> findAll(Pageable pageable);
 }
 

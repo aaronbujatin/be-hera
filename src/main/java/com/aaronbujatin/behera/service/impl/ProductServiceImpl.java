@@ -31,10 +31,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(() -> new InvalidArgumentException("Product id :" + id + " was not found!"));
     }
 
-    @Override
-    public List<Product> getAllProduct() {
-        return productRepository.findAll();
-    }
+//    @Override
+//    public List<Product> getAllProduct() {
+//        return productRepository.findAll();
+//    }
 
     @Override
     public Product updateProduct(Product product) {
@@ -95,5 +95,10 @@ public class ProductServiceImpl implements ProductService {
                 minPrice, maxPrice,
                 brand, category,
                 sortBy, sortDirection,pageable);
+    }
+
+    @Override
+    public Page<Product> getAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }
