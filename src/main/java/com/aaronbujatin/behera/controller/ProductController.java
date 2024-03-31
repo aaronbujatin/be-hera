@@ -108,7 +108,19 @@ public class ProductController {
 
 
     //update
+
+    @PutMapping
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+        Product updatedProduct = productService.updateProduct(product);
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    }
     //delete
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProductById(@PathVariable(name = "id") Long id){
+        productService.deleteProductById(id);
+        return new ResponseEntity<>("Product successfully deleted", HttpStatus.OK);
+    }
 
 
 }
