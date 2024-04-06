@@ -1,6 +1,7 @@
 
 package com.aaronbujatin.behera.service;
 
+import com.aaronbujatin.behera.dto.ProductDto;
 import com.aaronbujatin.behera.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ public interface ProductService {
 
 //    List<Product> getAllProduct();
 
-    Product updateProduct(Product product);
+    ProductDto updateProduct(ProductDto product);
 
     void deleteProductById(Long id);
 

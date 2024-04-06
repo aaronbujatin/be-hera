@@ -7,7 +7,15 @@
     <list default="true" id="8475f72a-c6ad-4401-b363-7ed3d77ffae6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/entity/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aaronbujatin/behera/service/impl/ProductServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/controller/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/OrderItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/OrderItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/entity/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aaronbujatin/behera/service/impl/ProductServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -26,6 +34,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/3.1.4/spring-data-commons-3.1.4.jar!/org/springframework/data/repository/ListCrudRepository.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.1.4/spring-security-config-6.1.4.jar!/org/springframework/security/config/Customizer.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.1.4/spring-security-config-6.1.4.jar!/org/springframework/security/config/annotation/web/AbstractRequestMatcherRegistry.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.1.4/spring-security-config-6.1.4.jar!/org/springframework/security/config/annotation/web/builders/HttpSecurity.class" root0="SKIP_INSPECTION" />

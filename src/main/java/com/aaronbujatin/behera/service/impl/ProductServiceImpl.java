@@ -1,8 +1,11 @@
 
 package com.aaronbujatin.behera.service.impl;
 
+import com.aaronbujatin.behera.dto.ProductDto;
 import com.aaronbujatin.behera.entity.Product;
 import com.aaronbujatin.behera.exception.InvalidArgumentException;
+import com.aaronbujatin.behera.exception.ResourceNotFoundException;
+import com.aaronbujatin.behera.mapper.ProductDtoMapper;
 import com.aaronbujatin.behera.repository.ProductRepository;
 import com.aaronbujatin.behera.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductDtoMapper productDtoMapper;
 
     @Override
     public Product saveProduct(Product product) {
@@ -37,8 +41,24 @@ public class ProductServiceImpl implements ProductService {
 //    }
 
     @Override
-    public Product updateProduct(Product product) {
-        return null;
+    public ProductDto updateProduct(ProductDto productDto) {
+
+        Product product = productRepository.findById(productDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product id " + productDto.getId() +  " was not found"));
+
+        if (product != null) {
+//            ProductDto productDto = new ProductDto();
+            product.setName(productDto.getName());
+            product.setPrice(productDto.getPrice());
+            product.setImageUrl(productDto.getImageUrl());
+            product.setDescriptions(productDto.getDescriptions());
+            product.setDateCreated(productDto.getDateCreated());
+            product.setStock(productDto.getStock());
+            product.setBrand(productDto.getBrand());
+            product.setCategory(productDto.getCategory());
+            productRepository.save(product);
+        }
+        return productDtoMapper.apply(product);
     }
 
     @Override

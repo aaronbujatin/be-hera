@@ -1,6 +1,7 @@
 
 package com.aaronbujatin.behera.controller;
 
+import com.aaronbujatin.behera.dto.ProductDto;
 import com.aaronbujatin.behera.entity.Product;
 import com.aaronbujatin.behera.repository.ProductRepository;
 import com.aaronbujatin.behera.service.ProductService;
@@ -110,13 +111,15 @@ public class ProductController {
     //update
 
     @PutMapping
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
-        Product updatedProduct = productService.updateProduct(product);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product){
+        ProductDto updatedProduct = productService.updateProduct(product);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
     //delete
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteProductById(@PathVariable(name = "id") Long id){
         productService.deleteProductById(id);
         return new ResponseEntity<>("Product successfully deleted", HttpStatus.OK);
