@@ -2,6 +2,7 @@
 A simple ecommerce application built with Spring boot 3.0 and Angular 16
 
 [Demo](https://link.com](https://www.youtube.com/watch?v=FMEM6ezVGGQ&t=103s&ab_channel=AaronBujatin))
+<video src="https://link.com](https://www.youtube.com/watch?v=FMEM6ezVGGQ&t=103s&ab_channel=AaronBujatin" width="300" />
 
 - Sign in
 ![image](https://github.com/aaronbujatin/be-hera/assets/94673180/10f56b54-fa6a-4de9-8c1d-61fdb7930e9b)
